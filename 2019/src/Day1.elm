@@ -11,11 +11,44 @@ parsePuzzleInput str =
         |> List.map (\a -> Maybe.withDefault 0 (String.toInt a))
 
 
-calculateFuelRequired : Int -> Int
-calculateFuelRequired mass =
+calculateFuel : Int -> Int
+calculateFuel mass =
     Basics.floor (toFloat mass / 3) - 2
 
 
-getAnswer =
-    parsePuzzleInput puzzleInput
-        |> List.foldl (\a b -> calculateFuelRequired a + b) 0
+calculateFuelForFuel : Int -> Int -> Int
+calculateFuelForFuel total fuel =
+    let
+        fuelforFuel =
+            calculateFuel fuel
+    in
+    if fuelforFuel >= 0 then
+        calculateFuelForFuel (total + fuelforFuel) fuelforFuel
+
+    else
+        total
+
+
+getAnswerPart1 : String -> Int
+getAnswerPart1 puzzle =
+    parsePuzzleInput puzzle
+        |> List.foldl (\mass total -> calculateFuel mass + total) 0
+
+
+getAnswerPart2 : String -> Int
+getAnswerPart2 puzzle =
+    parsePuzzleInput puzzle
+        |> List.foldl
+            (\mass total ->
+                let
+                    moduleFuel =
+                        calculateFuel mass
+                in
+                moduleFuel + calculateFuelForFuel 0 moduleFuel + total
+            )
+            0
+
+
+getAnswer puzzle =
+    String.replace "#" (String.fromInt (getAnswerPart1 puzzle)) "Part 1 answer is #. "
+        ++ String.replace "#" (String.fromInt (getAnswerPart2 puzzle)) "Part 2 answer is #."
