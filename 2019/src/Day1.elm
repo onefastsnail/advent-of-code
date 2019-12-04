@@ -49,6 +49,7 @@ getAnswerPart2 puzzle =
             0
 
 
+getAnswer : String -> String
 getAnswer puzzle =
     String.replace "#" (String.fromInt (getAnswerPart1 puzzle)) "Part 1 answer is #. "
         ++ String.replace "#" (String.fromInt (getAnswerPart2 puzzle)) "Part 2 answer is #."

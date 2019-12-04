@@ -1,4 +1,4 @@
-# Advent of code
+# Advent of Code
 
 **SPOLIER ALERT!! Contains Advent of code solutions!**
 
