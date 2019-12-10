@@ -10,3 +10,10 @@ Each Elm module exposes all of its values and functions so we can use them in th
 1. `$ elm repl`
 1. `$ import DayX`
 1. `$ (DayX.getAnswer | DayX.getAnswerPartX) DayX.puzzleInput`
+
+## Tests
+
+![Boy-That-Escalated-Quickly-Anchorman](https://user-images.githubusercontent.com/472595/70568779-420c2c00-1ba1-11ea-8b43-3eab76fa798c.gif)
+
+- `$ npm install elm-test -g`
+- `$ elm-test`
