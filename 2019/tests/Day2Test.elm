@@ -22,7 +22,11 @@ suite =
             (\_ -> Day2.createInputPermutations 0 1 |> Expect.equal [ ( 0, 0 ), ( 0, 1 ), ( 1, 0 ), ( 1, 1 ) ])
         , test
             "restoreProgramState"
-            (\_ -> restoreProgramState [ ( 0, 3 ), ( 1, 4 ) ] (Array.fromList [ 1, 2 ]) |> Expect.equal (Array.fromList [ 3, 4 ]))
+            (\_ ->
+                Array.fromList [ 1, 2 ]
+                    |> restoreProgramState [ ( 0, 3 ), ( 1, 4 ) ]
+                    |> Expect.equal (Array.fromList [ 3, 4 ])
+            )
         , test "getAnswerPart1"
             (\_ -> Day2.getAnswerPart1 puzzleInput |> Expect.equal 2782414)
         , test "getAnswerPart2"

@@ -14,7 +14,11 @@ suite : Test
 suite =
     describe "Day1"
         [ test "parsePuzzleInput"
-            (\_ -> Day1.parsePuzzleInput "1\n2\n3" |> List.length |> Expect.equal 3)
+            (\_ ->
+                Day1.parsePuzzleInput "1\n2\n3"
+                    |> List.length
+                    |> Expect.equal 3
+            )
         , test "calculateFuel example case"
             (\_ -> Day1.calculateFuel 100756 |> Expect.equal 33583)
         , test "calculateFuelForFuel example case"
