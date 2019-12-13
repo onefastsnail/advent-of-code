@@ -30,8 +30,8 @@ suite =
             (\_ -> Day3.nextPoint "L5" ( 1, 1 ) |> Expect.equal ( -4, 1 ))
         , test "nextPoint RIGHT"
             (\_ -> Day3.nextPoint "R5" ( 1, 1 ) |> Expect.equal ( 6, 1 ))
-        , test "convertDirectionsToPoints"
-            (\_ -> Day3.convertDirectionsToPoints [ "R1", "U1", "L1", "D1" ] |> Expect.equal [ ( 0, 0 ), ( 1, 0 ), ( 1, 1 ), ( 0, 1 ), ( 0, 0 ) ])
+        , test "convertDirectionsToPath"
+            (\_ -> Day3.convertDirectionsToPath [ "R1", "U1", "L1", "D1" ] |> Expect.equal [ ( 0, 0 ), ( 1, 0 ), ( 1, 1 ), ( 0, 1 ), ( 0, 0 ) ])
         , test "findIntersections"
             (\_ -> Day3.findIntersections [ [ ( 0, 0 ), ( 1, 4 ), ( -8, 9 ), ( 99, 100 ) ], [ ( 0, 0 ), ( 9, -4 ), ( -8, 9 ), ( 12, 87 ) ] ] |> Expect.equal [ ( -8, 9 ), ( 0, 0 ) ])
         , test "example input case 1"
