@@ -121,9 +121,9 @@ convertDirectionsToPath directions =
                 y =
                     generatePathPoints b.x z
             in
-            { x = z, points = List.append b.points y }
+            { x = z, points = List.drop 1 y |> List.append b.points }
         )
-        { x = ( 0, 0 ), points = [ ( 0, 0 ) ] }
+        { x = ( 0, 0 ), points = [] }
         directions
         |> .points
 
@@ -155,3 +155,59 @@ getAnswerPart1 puzzle =
         |> List.filter (\a -> a > 0)
         |> List.minimum
         |> Maybe.withDefault 0
+
+
+findFewestSteps : List (List ( Int, Point )) -> Int
+findFewestSteps intersections =
+    let
+        path1 =
+            List.head intersections
+                |> Maybe.withDefault []
+
+        path2 =
+            List.drop 1 intersections
+                |> List.head
+                |> Maybe.withDefault []
+    in
+    List.foldl
+        (\( distance1, point1 ) totals ->
+            let
+                distance =
+                    List.filter (\( _, point2 ) -> point1 == point2) path2
+                        |> List.head
+                        |> Maybe.withDefault ( 0, ( 0, 0 ) )
+                        |> Tuple.first
+            in
+            distance1 + distance :: totals
+        )
+        []
+        path1
+        |> List.sort
+        |> List.head
+        |> Maybe.withDefault 0
+        |> (+) 2
+
+
+findIntersectionsWithDistance : List Path -> List (List ( Int, Point ))
+findIntersectionsWithDistance paths =
+    let
+        intersections =
+            findIntersections paths
+    in
+    List.foldl
+        (\path matches ->
+            let
+                indexedPath =
+                    List.indexedMap Tuple.pair path
+            in
+            List.filter (\( _, point ) -> List.member point intersections) indexedPath :: matches
+        )
+        []
+        paths
+
+
+getAnswerPart2 puzzle =
+    parsePuzzleInput puzzle
+        |> List.map convertDirectionsToPath
+        |> findIntersectionsWithDistance
+        |> findFewestSteps

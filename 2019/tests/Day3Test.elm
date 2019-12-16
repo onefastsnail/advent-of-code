@@ -31,27 +31,44 @@ suite =
         , test "nextPoint RIGHT"
             (\_ -> Day3.nextPoint "R5" ( 1, 1 ) |> Expect.equal ( 6, 1 ))
         , test "convertDirectionsToPath"
-            (\_ -> Day3.convertDirectionsToPath [ "R1", "U1", "L1", "D1" ] |> Expect.equal [ ( 0, 0 ), ( 1, 0 ), ( 1, 1 ), ( 0, 1 ), ( 0, 0 ) ])
+            (\_ -> Day3.convertDirectionsToPath [ "R1", "U1", "L1", "D1" ] |> Expect.equal [ ( 1, 0 ), ( 1, 1 ), ( 0, 1 ), ( 0, 0 ) ])
         , test "findIntersections"
-            (\_ -> Day3.findIntersections [ [ ( 0, 0 ), ( 1, 4 ), ( -8, 9 ), ( 99, 100 ) ], [ ( 0, 0 ), ( 9, -4 ), ( -8, 9 ), ( 12, 87 ) ] ] |> Expect.equal [ ( -8, 9 ), ( 0, 0 ) ])
-        , test "example input case 1"
-            (\_ ->
-                Day3.getAnswerPart1 "R8,U5,L5,D3\nU7,R6,D4,L4"
-                    |> Expect.equal 6
-            )
-        , test "example input case 2"
-            (\_ ->
-                Day3.getAnswerPart1 "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51\nU98,R91,D20,R16,D67,R40,U7,R15,U6,R7"
-                    |> Expect.equal 135
-            )
-        , test "example input case 3"
-            (\_ ->
-                Day3.getAnswerPart1 "R75,D30,R83,U83,L12,D49,R71,U7,L72\nU62,R66,U55,R34,D71,R55,D58,R83"
-                    |> Expect.equal 159
-            )
-        , test "getAnswerPart1"
-            (\_ ->
-                Day3.getAnswerPart1 puzzleInput
-                    |> Expect.equal 266
-            )
+            (\_ -> Day3.findIntersections [ [ ( 1, 4 ), ( -8, 9 ), ( 99, 100 ) ], [ ( 0, 0 ), ( 9, -4 ), ( -8, 9 ), ( 12, 87 ) ] ] |> Expect.equal [ ( -8, 9 ) ])
+        , test "findIntersectionsWithDistance"
+            (\_ -> Day3.findIntersectionsWithDistance [ [ ( 0, 1 ), ( 1, 1 ) ], [ ( 1, 0 ), ( 1, 1 ) ] ] |> Expect.equal [ [ ( 1, ( 1, 1 ) ) ], [ ( 1, ( 1, 1 ) ) ] ])
+        , describe "part 1"
+            [ test "example input case 1"
+                (\_ ->
+                    Day3.getAnswerPart1 "R8,U5,L5,D3\nU7,R6,D4,L4"
+                        |> Expect.equal 6
+                )
+            , test "example input case 2"
+                (\_ ->
+                    Day3.getAnswerPart1 "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51\nU98,R91,D20,R16,D67,R40,U7,R15,U6,R7"
+                        |> Expect.equal 135
+                )
+            , test "example input case 3"
+                (\_ ->
+                    Day3.getAnswerPart1 "R75,D30,R83,U83,L12,D49,R71,U7,L72\nU62,R66,U55,R34,D71,R55,D58,R83"
+                        |> Expect.equal 159
+                )
+            , test "getAnswerPart1"
+                (\_ ->
+                    Day3.getAnswerPart1 puzzleInput
+                        |> Expect.equal 266
+                )
+            ]
+        , describe "part 2"
+            [ test "example input case 1"
+                (\_ -> Day3.getAnswerPart2 "R8,U5,L5,D3\nU7,R6,D4,L4" |> Expect.equal 30)
+            , test "example input case 2"
+                (\_ -> Day3.getAnswerPart2 "R75,D30,R83,U83,L12,D49,R71,U7,L72\nU62,R66,U55,R34,D71,R55,D58,R83" |> Expect.equal 610)
+            , test "example input case 3"
+                (\_ -> Day3.getAnswerPart2 "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51\nU98,R91,D20,R16,D67,R40,U7,R15,U6,R7" |> Expect.equal 410)
+            , test "getAnswerPart2"
+                (\_ ->
+                    Day3.getAnswerPart2 puzzleInput
+                        |> Expect.equal 19242
+                )
+            ]
         ]
