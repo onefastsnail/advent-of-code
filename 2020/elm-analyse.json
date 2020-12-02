@@ -1,0 +1,7 @@
+{
+  "checks": {
+    "ExposeAll": false,
+    "ImportAll": false,
+    "BooleanCase": false
+  }
+}
