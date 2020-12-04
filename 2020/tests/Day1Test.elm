@@ -22,4 +22,7 @@ suite =
         , test
             "getAnswerPart1"
             (\_ -> Day1.getAnswerPart1 puzzleInput 2020 |> Expect.equal 514579)
+        , test
+            "getAnswerPart2"
+            (\_ -> Day1.getAnswerPart2 puzzleInput 2020 |> Expect.equal 241861950)
         ]

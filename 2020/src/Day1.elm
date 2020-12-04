@@ -1,10 +1,17 @@
 module Day1 exposing (..)
 
-import Set exposing (Set)
 
-
-type alias Entry =
+type alias EntryWith2 =
     { a : Int, b : Int, match : Bool }
+
+
+type alias EntryWith3 =
+    { a : Int, b : Int, c : Int, match : Bool }
+
+
+type Entry
+    = Entry2 EntryWith2
+    | Entry3 EntryWith3
 
 
 puzzleInput : String
@@ -18,27 +25,57 @@ parsePuzzleInput str =
         |> List.map (\a -> Maybe.withDefault 0 (String.toInt a))
 
 
-calculateEntry : Int -> Int -> Int -> Bool
-calculateEntry a b target =
-    (a + b) == target
+isEntryMatch : Entry -> Bool
+isEntryMatch entry =
+    case entry of
+        Entry2 { match } ->
+            match
+
+        Entry3 { match } ->
+            match
 
 
 findEntries : Int -> List Int -> List Entry
 findEntries target entries =
-    List.map (\a -> List.map (\b -> { a = a, b = b, match = calculateEntry a b target }) entries) entries
+    List.map (\a -> List.map (\b -> Entry2 { a = a, b = b, match = (a + b) == target }) entries) entries
         |> List.concat
-        |> List.filter (\entry -> entry.match == True)
+        |> List.filter isEntryMatch
+
+
+findEntries2 : Int -> List Int -> List Entry
+findEntries2 target entries =
+    List.map (\a -> List.map (\b -> List.map (\c -> Entry3 { a = a, b = b, c = c, match = (a + b + c) == target }) entries) entries |> List.concat) entries
+        |> List.concat
+        |> List.filter isEntryMatch
 
 
 multiply : List Entry -> List Int
 multiply entries =
-    List.map (\entry -> entry.a * entry.b) entries
+    List.map
+        (\entry ->
+            case entry of
+                Entry2 { a, b } ->
+                    a * b
+
+                Entry3 { a, b, c } ->
+                    a * b * c
+        )
+        entries
 
 
 getAnswerPart1 : String -> Int -> Int
 getAnswerPart1 puzzle target =
     parsePuzzleInput puzzle
         |> findEntries target
+        |> multiply
+        |> List.head
+        |> Maybe.withDefault 0
+
+
+getAnswerPart2 : String -> Int -> Int
+getAnswerPart2 puzzle target =
+    parsePuzzleInput puzzle
+        |> findEntries2 target
         |> multiply
         |> List.head
         |> Maybe.withDefault 0
