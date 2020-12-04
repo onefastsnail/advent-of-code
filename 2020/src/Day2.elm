@@ -51,8 +51,27 @@ checkPassword entry =
         |> (\matches -> matches >= entry.policy.min && matches <= entry.policy.max)
 
 
+checkPasswordV2 : Entry -> Bool
+checkPasswordV2 entry =
+    let
+        minPosValue =
+            String.slice (entry.policy.min - 1) entry.policy.min entry.password
+
+        maxPosValue =
+            String.slice (entry.policy.max - 1) entry.policy.max entry.password
+    in
+    (minPosValue == entry.policy.letter && maxPosValue /= entry.policy.letter) || maxPosValue == entry.policy.letter && minPosValue /= entry.policy.letter
+
+
 getAnswerPart1 : String -> Int
 getAnswerPart1 puzzle =
     parsePuzzleInput puzzle
         |> List.filter checkPassword
+        |> List.length
+
+
+getAnswerPart2 : String -> Int
+getAnswerPart2 puzzle =
+    parsePuzzleInput puzzle
+        |> List.filter checkPasswordV2
         |> List.length
