@@ -81,9 +81,28 @@ calculate count xPos yPos xJump lines =
                 (List.drop yPos lines)
 
 
+multiplyTogether : List Int -> Basics.Int
+multiplyTogether values =
+    List.foldl (\i a -> i * a) 1 values
+
+
 getAnswerPart1 : String -> Int
 getAnswerPart1 puzzle =
     parsePuzzleInput puzzle
         |> List.drop 1
         |> expandPuzzle
         |> calculate 0 3 1 3
+
+
+puzzleSlopes : List ( Int, Int )
+puzzleSlopes =
+    [ ( 1, 1 ), ( 3, 1 ), ( 5, 1 ), ( 7, 1 ), ( 1, 2 ) ]
+
+
+getAnswerPart2 : String -> List ( Int, Int ) -> Int
+getAnswerPart2 puzzle slopes =
+    parsePuzzleInput puzzle
+        |> List.drop 1
+        |> expandPuzzle
+        |> (\lines -> List.map (\( x, y ) -> calculate 0 x y x lines) slopes)
+        |> multiplyTogether
