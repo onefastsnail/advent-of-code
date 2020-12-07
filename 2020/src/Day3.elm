@@ -66,7 +66,8 @@ calculate count xPos yPos xJump lines =
         _ ->
             let
                 line =
-                    List.head lines
+                    List.drop yPos lines
+                        |> List.head
                         |> Maybe.withDefault []
                         |> List.take (xPos + 1)
 
@@ -89,7 +90,6 @@ multiplyTogether values =
 getAnswerPart1 : String -> Int
 getAnswerPart1 puzzle =
     parsePuzzleInput puzzle
-        |> List.drop 1
         |> expandPuzzle
         |> calculate 0 3 1 3
 
@@ -102,7 +102,6 @@ puzzleSlopes =
 getAnswerPart2 : String -> List ( Int, Int ) -> Int
 getAnswerPart2 puzzle slopes =
     parsePuzzleInput puzzle
-        |> List.drop 1
         |> expandPuzzle
         |> (\lines -> List.map (\( x, y ) -> calculate 0 x y x lines) slopes)
         |> multiplyTogether
