@@ -1,5 +1,13 @@
 module Day5 exposing (..)
 
+import Html exposing (col)
+import Html.Attributes exposing (rows)
+import List
+
+
+type alias BoardingPass =
+    { row : Int, column : Int, seat : Int }
+
 
 puzzleInput : String
 puzzleInput =
@@ -60,36 +68,110 @@ swapsies str =
     String.replace "R" "B" str |> String.replace "L" "F"
 
 
+convertToSeatNumber : Int -> Int -> Int
+convertToSeatNumber row column =
+    (row * 8) + column
+
+
+convertBoardingPass : List (List String) -> BoardingPass
+convertBoardingPass ticket =
+    let
+        rowLetters =
+            List.head ticket |> Maybe.withDefault []
+
+        startingRowLetter =
+            List.head rowLetters |> Maybe.withDefault ""
+
+        row =
+            findRegion startingRowLetter (List.range 0 127) rowLetters
+
+        columnLetters =
+            List.reverse ticket
+                |> List.head
+                |> Maybe.withDefault []
+                |> List.map swapsies
+
+        startingColumnLetter =
+            List.head columnLetters |> Maybe.withDefault ""
+
+        column =
+            findRegion startingColumnLetter (List.range 0 7) columnLetters
+    in
+    { row = row, column = column, seat = convertToSeatNumber row column }
+
+
+findEmptySeats : Int -> Int -> List BoardingPass -> List BoardingPass
+findEmptySeats startingRow endingRow seats =
+    List.range startingRow endingRow
+        |> List.foldl
+            (\row missing ->
+                let
+                    found =
+                        List.range 0 7
+                            |> List.foldl
+                                (\column b ->
+                                    let
+                                        notFound =
+                                            List.filter (\a -> a.row == row && a.column == column) seats |> List.isEmpty
+                                    in
+                                    case notFound of
+                                        True ->
+                                            { row = row, column = column, seat = convertToSeatNumber row column } :: b
+
+                                        _ ->
+                                            b
+                                )
+                                []
+                in
+                found :: missing
+            )
+            []
+        |> List.concat
+
+
 getAnswerPart1 : String -> Int
 getAnswerPart1 puzzle =
     parsePuzzleInput puzzle
-        |> List.map
-            (\ticket ->
-                let
-                    rowLetters =
-                        List.head ticket |> Maybe.withDefault []
-
-                    startingRowLetter =
-                        List.head rowLetters |> Maybe.withDefault ""
-
-                    row =
-                        findRegion startingRowLetter (List.range 0 127) rowLetters
-
-                    columnLetters =
-                        List.reverse ticket
-                            |> List.head
-                            |> Maybe.withDefault []
-                            |> List.map swapsies
-
-                    startingColumnLetter =
-                        List.head columnLetters |> Maybe.withDefault ""
-
-                    column =
-                        findRegion startingColumnLetter (List.range 0 7) columnLetters
-                in
-                (row * 8) + column
-            )
+        |> List.map convertBoardingPass
+        |> List.map (\a -> a.seat)
         |> List.sort
         |> List.reverse
+        |> List.head
+        |> Maybe.withDefault 0
+
+
+getAnswerPart2 : String -> Int
+getAnswerPart2 puzzle =
+    parsePuzzleInput puzzle
+        |> List.map convertBoardingPass
+        |> List.sortBy (\pass -> pass.row)
+        |> (\passes ->
+                let
+                    startRow =
+                        List.head passes
+                            |> (\a ->
+                                    case a of
+                                        Maybe.Just { row } ->
+                                            row
+
+                                        _ ->
+                                            0
+                               )
+
+                    endRow =
+                        List.reverse passes
+                            |> List.head
+                            |> (\a ->
+                                    case a of
+                                        Maybe.Just { row } ->
+                                            row - 1
+
+                                        _ ->
+                                            0
+                               )
+                in
+                findEmptySeats startRow endRow passes
+           )
+        |> List.map (\pass -> pass.seat)
         |> List.head
         |> Maybe.withDefault 0
