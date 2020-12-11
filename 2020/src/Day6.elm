@@ -26,7 +26,37 @@ parsePuzzleInput str =
             )
 
 
+parsePuzzleInputV2 : String -> List (Set String)
+parsePuzzleInputV2 str =
+    String.split "\n\n" str
+        |> List.map
+            (\a ->
+                String.split "\n" a
+                    |> (\b ->
+                            case List.length b of
+                                1 ->
+                                    List.head b |> Maybe.withDefault ""
+
+                                _ ->
+                                    String.join "" b
+                                        |> (\c ->
+                                                String.split "" c
+                                                    |> List.filter (\d -> List.length (String.indexes d c) == List.length b)
+                                                    |> String.concat
+                                           )
+                       )
+                    |> String.split ""
+                    |> Set.fromList
+            )
+
+
 getAnswerPart1 : String -> Int
 getAnswerPart1 puzzle =
     parsePuzzleInput puzzle
+        |> List.foldl (\answers total -> total + Set.size answers) 0
+
+
+getAnswerPart2 : String -> Int
+getAnswerPart2 puzzle =
+    parsePuzzleInputV2 puzzle
         |> List.foldl (\answers total -> total + Set.size answers) 0
