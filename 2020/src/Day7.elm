@@ -89,6 +89,25 @@ canBagHoldColor color bags allBags =
                             False
 
 
+countBags : Dict String Int -> Dict String (Dict String Int) -> Int -> Int
+countBags bags allBags count =
+    case Dict.isEmpty bags of
+        True ->
+            count
+
+        False ->
+            Dict.foldl
+                (\k v a ->
+                    let
+                        nestedBagCount =
+                            countBags (Dict.get k allBags |> Maybe.withDefault Dict.empty) allBags 0
+                    in
+                    v + (v * nestedBagCount) + a
+                )
+                0
+                bags
+
+
 getAnswerPart1 : String -> Int
 getAnswerPart1 puzzle =
     parsePuzzleInput puzzle
@@ -108,4 +127,12 @@ getAnswerPart1 puzzle =
                     )
                     0
                     bags
+           )
+
+
+getAnswerPart2 : String -> Int
+getAnswerPart2 puzzle =
+    parsePuzzleInput puzzle
+        |> (\bags ->
+                countBags (Dict.get "shiny gold" bags |> Maybe.withDefault Dict.empty) bags 0
            )

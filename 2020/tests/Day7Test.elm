@@ -23,4 +23,16 @@ suite =
         , test
             "getAnswerPart1 1"
             (\_ -> Day7.getAnswerPart1 puzzleInput |> Expect.equal 4)
+        , test
+            "countBags simple"
+            (\_ ->
+                let
+                    puzzleInputTest =
+                        "shiny gold bags contain 2 dark red bags.\ndark red bags contain 2 dark orange bags.\ndark orange bags contain no other bags."
+
+                    bags =
+                        Day7.parsePuzzleInput puzzleInputTest
+                in
+                Day7.countBags (Dict.get "shiny gold" bags |> Maybe.withDefault Dict.empty) bags 0 |> Expect.equal 6
+            )
         ]
