@@ -22,6 +22,9 @@ suite =
                     |> Expect.equal 9
             )
         , test
-            "getAnswerPart1 1"
+            "getAnswerPart1"
             (\_ -> Day8.getAnswerPart1 puzzleInput |> Expect.equal 5)
+        , test
+            "getAnswerPart2"
+            (\_ -> Day8.getAnswerPart2 puzzleInput |> Expect.equal 8)
         ]
