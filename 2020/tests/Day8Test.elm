@@ -2,7 +2,6 @@ module Day8Test exposing (..)
 
 import Array exposing (Array)
 import Day8 exposing (..)
-import Dict
 import Expect exposing (..)
 import Test exposing (..)
 
