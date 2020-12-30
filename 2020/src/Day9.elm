@@ -76,3 +76,54 @@ getAnswerPart1 puzzle length =
                     Nothing ->
                         0
            )
+
+
+getElementIndex : List a -> a -> Int -> Int
+getElementIndex list elem offset =
+    case list of
+        [] ->
+            -1
+
+        x :: xs ->
+            if x == elem then
+                offset
+
+            else
+                getElementIndex xs elem (offset + 1)
+
+
+makeSlices : List Int -> List (List Int)
+makeSlices numbers =
+    let
+        newList =
+            List.indexedMap Tuple.pair numbers
+
+        array1 =
+            Array.fromList numbers
+    in
+    List.map (\a -> List.map (\b -> Array.slice (Tuple.first a) (Tuple.first b + 1) array1 |> Array.toList) newList) newList
+        |> List.concat
+
+
+getAnswerPart2 : String -> Int -> Int
+getAnswerPart2 puzzle length =
+    getAnswerPart1 puzzle length
+        |> (\invalidNumber ->
+                let
+                    numbers =
+                        parsePuzzleInput puzzle |> (\a -> Array.slice 0 (getElementIndex a invalidNumber 0) (Array.fromList a)) |> Array.toList
+
+                    slices =
+                        makeSlices numbers
+
+                    foundSlice =
+                        List.filter (\slice -> List.sum slice == invalidNumber) slices |> List.concat
+
+                    head =
+                        List.maximum foundSlice |> Maybe.withDefault 0
+
+                    tail =
+                        List.minimum foundSlice |> Maybe.withDefault 0
+                in
+                head + tail
+           )
