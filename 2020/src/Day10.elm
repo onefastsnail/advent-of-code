@@ -1,7 +1,9 @@
 module Day10 exposing (..)
 
 import Array
+import Debug
 import List
+import Set
 
 
 puzzleInput : String
@@ -50,45 +52,42 @@ getAnswerPart1 puzzle =
            )
 
 
-puzzleInput1 =
-    "16\n10\n15\n5\n1\n11\n7\n19\n6\n12\n4"
+countVariations : Array.Array Int -> Int -> Int
+countVariations adapters current =
+    case (Array.length adapters - 1) == current of
+        True ->
+            -- We have reached the end of the line, a successful sequence of connected adapters, + 1
+            1
+
+        False ->
+            case Array.get current adapters of
+                Nothing ->
+                    -- No adapter found at this index bail out
+                    0
+
+                Just adapter ->
+                    List.foldl
+                        (\i a ->
+                            case Array.get i adapters of
+                                Just someAdapter ->
+                                    -- Can the adapter be removed
+                                    case someAdapter - adapter <= 3 of
+                                        True ->
+                                            -- Since this adapter is removable then iterate subsequently that sequence starting there
+                                            a + countVariations adapters i
+
+                                        False ->
+                                            a
+
+                                Nothing ->
+                                    a
+                        )
+                        0
+                        -- Loop the next sequence of adapters from the current index to the end
+                        (List.range (current + 1) (Array.length adapters))
 
 
-puzzleInput2 =
-    "28\n33\n18\n42\n31\n14\n46\n20\n48\n47\n24\n23\n49\n45\n19\n38\n39\n11\n1\n32\n25\n35\n8\n17\n7\n9\n4\n2\n34\n10\n3"
-
-
-
--- findArrangements adapters
--- getAnswerPart2 puzzle =
---     let
---         numbers =
---             parsePuzzleInput puzzle |> List.sort |> Array.fromList
---         differences =
---             parsePuzzleInput puzzle |> (\adapters -> connectAdapters [] (List.sort adapters) [])
---         ones =
---             List.filter (\( _, d ) -> d == 1) differences |> Debug.log "x"
---     in
---     List.foldl
---         (\( k, v ) a ->
---             let
---                 start =
---                     Array.get k numbers |> Maybe.withDefault 999 |> Debug.log "a"
---                 end =
---                     Array.get (k + 2) numbers |> Maybe.withDefault 111 |> Debug.log "b"
---                 canNextBeRemoved =
---                     end - adapter <= 3 |> Debug.log "c"
---             in
---             case canNextBeRemoved of
---                 True ->
---                     a + 1
---                 False ->
---                     a
---         )
---         1
---         (List.indexedMap Tuple.pair (Array.toList numbers))
-
-
+getAnswerPart2 : String -> Int
 getAnswerPart2 puzzle =
     let
         numbers =
@@ -96,41 +95,5 @@ getAnswerPart2 puzzle =
                 |> List.append [ 0 ]
                 |> List.sort
                 |> (\a -> List.append a [ List.reverse a |> List.head |> Maybe.withDefault 0 |> (\b -> b + 3) ])
-
-        indexedNumbers =
-            Array.fromList numbers
     in
-    List.foldl
-        (\( k, _ ) a ->
-            let
-                adapter =
-                    Array.get k indexedNumbers |> Maybe.withDefault 0 |> Debug.log "a"
-
-                slice =
-                    Array.slice (k + 1) (k + 4) indexedNumbers |> Array.toList |> Debug.log "b"
-
-                x =
-                    List.foldl
-                        (\nextAdapter count ->
-                            let
-                                canNextBeRemoved =
-                                    nextAdapter - adapter < 3 |> Debug.log "c"
-                            in
-                            case canNextBeRemoved of
-                                True ->
-                                    count + 1
-
-                                False ->
-                                    count
-                        )
-                        0
-                        slice
-                        |> Debug.log "d"
-            in
-            x :: a
-        )
-        []
-        (List.indexedMap Tuple.pair numbers)
-        |> List.filter (\a -> a > 0)
-        |> Debug.log "e"
-        |> List.product
+    countVariations (Array.fromList numbers) 0
