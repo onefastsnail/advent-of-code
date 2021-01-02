@@ -2,6 +2,7 @@ module Day10 exposing (..)
 
 import Array
 import Debug
+import Dict
 import List
 import Set
 
@@ -52,48 +53,51 @@ getAnswerPart1 puzzle =
            )
 
 
-countVariations : Array.Array Int -> Int -> Int
-countVariations adapters current =
-    case (Array.length adapters - 1) == current of
-        True ->
-            -- We have reached the end of the line, a successful sequence of connected adapters, + 1
-            1
+countVariations : List Int -> Int
+countVariations unsortedAdapters =
+    let
+        adapters =
+            List.sort unsortedAdapters
 
-        False ->
-            case Array.get current adapters of
-                Nothing ->
-                    -- No adapter found at this index bail out
+        -- Create a new list including the starting adapter 0 so that is included in the range finding
+        startingAdapters =
+            0 :: adapters
+
+        lastAdapter =
+            List.reverse adapters |> List.head |> Maybe.withDefault 0
+    in
+    List.foldl
+        (\adapter state ->
+            let
+                -- Find which adapters are within the joltage range of a given adapter looking backwards
+                inRange =
+                    List.filter (\a -> a >= adapter - 3 && a <= adapter - 1) startingAdapters
+            in
+            Dict.insert adapter
+                (List.foldl
+                    (\adapterCount totalCount ->
+                        case Dict.get adapterCount state of
+                            Just value ->
+                                -- For each adapter in range is a possibility of removal therefore is deemed has 1 different arrangement
+                                -- So lets reduce a counter that considers these arrangements for the current adapter and next adapter to retrieve
+                                totalCount + value
+
+                            Nothing ->
+                                totalCount
+                    )
                     0
-
-                Just adapter ->
-                    List.foldl
-                        (\i a ->
-                            case Array.get i adapters of
-                                Just someAdapter ->
-                                    -- Can the adapter be removed
-                                    case someAdapter - adapter <= 3 of
-                                        True ->
-                                            -- Since this adapter is removable then iterate subsequently that sequence starting there
-                                            a + countVariations adapters i
-
-                                        False ->
-                                            a
-
-                                Nothing ->
-                                    a
-                        )
-                        0
-                        -- Loop the next sequence of adapters from the current index to the end
-                        (List.range (current + 1) (Array.length adapters))
+                    inRange
+                )
+                state
+        )
+        -- We know the first adapter has 1 complete connection, so we use this as a base
+        (Dict.empty |> Dict.insert 0 1)
+        adapters
+        |> Dict.get lastAdapter
+        |> Maybe.withDefault 0
 
 
 getAnswerPart2 : String -> Int
 getAnswerPart2 puzzle =
-    let
-        numbers =
-            parsePuzzleInput puzzle
-                |> List.append [ 0 ]
-                |> List.sort
-                |> (\a -> List.append a [ List.reverse a |> List.head |> Maybe.withDefault 0 |> (\b -> b + 3) ])
-    in
-    countVariations (Array.fromList numbers) 0
+    parsePuzzleInput puzzle
+        |> countVariations
