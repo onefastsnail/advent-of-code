@@ -32,10 +32,10 @@ getFromMap rowPos columnPos map =
                     value
 
                 Nothing ->
-                    ""
+                    "!"
 
         Nothing ->
-            ""
+            "!"
 
 
 getAdjacentSeats : Int -> Int -> FloorMap -> List String
@@ -65,7 +65,114 @@ getAdjacentSeats row column map =
         diagonalDownRight =
             getFromMap (row + 1) (column + 1) map
     in
-    List.filter (\a -> a /= "") [ up, down, left, right, diagonalUpLeft, diagonalUpRight, diagonalDownLeft, diagonalDownRight ]
+    List.filter (\a -> a /= "!") [ up, down, left, right, diagonalUpLeft, diagonalUpRight, diagonalDownLeft, diagonalDownRight ]
+
+
+iteratePositionsUntil : List ( Int, Int ) -> FloorMap -> String
+iteratePositionsUntil positions map =
+    case positions of
+        [] ->
+            "!"
+
+        _ ->
+            case List.head positions of
+                Just ( row, column ) ->
+                    case getFromMap row column map of
+                        "L" ->
+                            "L"
+
+                        "#" ->
+                            "#"
+
+                        "." ->
+                            iteratePositionsUntil (List.drop 1 positions) map
+
+                        _ ->
+                            "!"
+
+                Nothing ->
+                    "!"
+
+
+findNextSeatInSight : Int -> Int -> FloorMap -> String -> String
+findNextSeatInSight row column map direction =
+    let
+        width =
+            Array.get 0 map |> Maybe.withDefault ( 0, Array.empty ) |> (\( x, y ) -> Array.length y - 1)
+
+        height =
+            Array.length map - 1
+
+        positions =
+            case direction of
+                "left" ->
+                    List.range 0 (column - 1) |> List.reverse |> List.map (\a -> ( row, a ))
+
+                "right" ->
+                    List.range (column + 1) width |> List.map (\a -> ( row, a ))
+
+                "up" ->
+                    List.range 0 (row - 1) |> List.reverse |> List.map (\a -> ( a, column ))
+
+                "down" ->
+                    List.range (row + 1) height |> List.map (\a -> ( a, column ))
+
+                "diagonalUpLeft" ->
+                    List.range 0 (row - 1) |> List.reverse |> List.map (\a -> ( a, column - (row - a) ))
+
+                "diagonalUpRight" ->
+                    List.range 0 (row - 1) |> List.reverse |> List.map (\a -> ( a, column - (a - row) ))
+
+                "diagonalDownLeft" ->
+                    List.range (row + 1) height |> List.map (\a -> ( a, column + (row - a) ))
+
+                "diagonalDownRight" ->
+                    List.range (row + 1) height |> List.map (\a -> ( a, column + (a - row) ))
+
+                _ ->
+                    []
+    in
+    iteratePositionsUntil positions map
+
+
+getAdjacentSeatsInSight : Int -> Int -> FloorMap -> List String
+getAdjacentSeatsInSight row column map =
+    let
+        up =
+            ( getFromMap (row - 1) column map, ( row - 1, column ), "up" )
+
+        down =
+            ( getFromMap (row + 1) column map, ( row + 1, column ), "down" )
+
+        left =
+            ( getFromMap row (column - 1) map, ( row, column - 1 ), "left" )
+
+        right =
+            ( getFromMap row (column + 1) map, ( row, column + 1 ), "right" )
+
+        diagonalUpLeft =
+            ( getFromMap (row - 1) (column - 1) map, ( row - 1, column - 1 ), "diagonalUpLeft" )
+
+        diagonalUpRight =
+            ( getFromMap (row - 1) (column + 1) map, ( row - 1, column + 1 ), "diagonalUpRight" )
+
+        diagonalDownLeft =
+            ( getFromMap (row + 1) (column - 1) map, ( row + 1, column - 1 ), "diagonalDownLeft" )
+
+        diagonalDownRight =
+            ( getFromMap (row + 1) (column + 1) map, ( row + 1, column + 1 ), "diagonalDownRight" )
+    in
+    List.map
+        (\( a, ( x, y ), direction ) ->
+            case a of
+                "." ->
+                    findNextSeatInSight row column map direction
+
+                _ ->
+                    a
+        )
+        [ up, down, left, right, diagonalUpLeft, diagonalUpRight, diagonalDownLeft, diagonalDownRight ]
+        |> List.filter (\a -> a /= "!")
 
 
 applyRules : FloorMap -> FloorMap
@@ -97,9 +204,38 @@ applyRules map =
         map
 
 
-iterateUntil : List Int -> FloorMap -> Int
-iterateUntil history map =
-    case List.length history > 1 of
+applyRulesV2 : FloorMap -> FloorMap
+applyRulesV2 map =
+    Array.map
+        (\( row, rows ) ->
+            ( row
+            , Array.map
+                (\( column, columnValue ) ->
+                    let
+                        adjacentSeats =
+                            getAdjacentSeatsInSight row column map
+
+                        occupiedAdjacentSeats =
+                            List.filter (\a -> a == "#") adjacentSeats
+                    in
+                    if columnValue == "L" && List.length occupiedAdjacentSeats == 0 then
+                        ( column, "#" )
+
+                    else if columnValue == "#" && List.length occupiedAdjacentSeats >= 5 then
+                        ( column, "L" )
+
+                    else
+                        ( column, columnValue )
+                )
+                rows
+            )
+        )
+        map
+
+
+iterateUntil : List Int -> (FloorMap -> FloorMap) -> FloorMap -> Int
+iterateUntil history applyRulesFn map =
+    case List.length history >= 2 of
         True ->
             let
                 value1 =
@@ -115,16 +251,16 @@ iterateUntil history map =
                 False ->
                     let
                         newMap =
-                            applyRules map
+                            applyRulesFn map
                     in
-                    iterateUntil (countOccupiedSeats newMap :: history) newMap
+                    iterateUntil (countOccupiedSeats newMap :: history) applyRulesFn newMap
 
         False ->
             let
                 newMap =
-                    applyRules map
+                    applyRulesFn map
             in
-            iterateUntil (countOccupiedSeats newMap :: history) newMap
+            iterateUntil (countOccupiedSeats newMap :: history) applyRulesFn newMap
 
 
 countOccupiedSeats : FloorMap -> Int
@@ -151,4 +287,10 @@ countOccupiedSeats map =
 getAnswerPart1 : String -> Int
 getAnswerPart1 puzzle =
     parsePuzzleInput puzzle
-        |> iterateUntil []
+        |> iterateUntil [] applyRules
+
+
+getAnswerPart2 : String -> Int
+getAnswerPart2 puzzle =
+    parsePuzzleInput puzzle
+        |> iterateUntil [] applyRulesV2
