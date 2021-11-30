@@ -1,0 +1,14 @@
+target/
+.idea/
+*.iml
+
+.envrc
+.cache
+.env
+.vscode
+.DS_Store
+
+.classpath
+.factorypath
+.project
+.settings/
