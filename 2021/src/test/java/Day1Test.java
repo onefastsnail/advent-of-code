@@ -8,25 +8,25 @@ class Day1Test {
   @Nested
   class Teaser {
 
-    Day puzzle = new Day1Part1(
-        "src/main/resources/Day1Part1Teaser.txt");
+    Day puzzle = new Day1(
+        "src/main/resources/day1-part1-teaser.txt");
 
     @Test
-    void getAnswerPart1Teaser() {
+    void getAnswerPart1() {
       assertEquals(puzzle.getAnswerPart1(), 7);
     }
 
     @Test
     void getAnswerPart2() {
-      assertEquals(puzzle.getAnswerPart2(), 200);
+      assertEquals(puzzle.getAnswerPart2(), 5);
     }
   }
 
   @Nested
   class Real {
 
-    Day puzzle = new Day1Part1(
-        "src/main/resources/Day1.txt");
+    Day puzzle = new Day1(
+        "src/main/resources/day1.txt");
 
     @Test
     void getAnswerPart1() {
@@ -35,7 +35,7 @@ class Day1Test {
 
     @Test
     void getAnswerPart2() {
-      assertEquals(puzzle.getAnswerPart2(), 195);
+      assertEquals(puzzle.getAnswerPart2(), 1702);
     }
   }
 

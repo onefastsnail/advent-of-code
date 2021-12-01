@@ -8,11 +8,11 @@ class BaseDayTest {
   @Nested
   class Teaser {
 
-    Day puzzle = new Day1Part1(
-        "src/main/resources/baseDay.txt");
+    Day puzzle = new BaseDay(
+        "src/main/resources/base-day.txt");
 
     @Test
-    void getAnswerPart1Teaser() {
+    void getAnswerPart1() {
       assertEquals(puzzle.getAnswerPart1(), 1);
     }
 
@@ -25,8 +25,8 @@ class BaseDayTest {
   @Nested
   class Real {
 
-    Day puzzle = new Day1Part1(
-        "src/main/resources/baseDay.txt");
+    Day puzzle = new BaseDay(
+        "src/main/resources/base-day.txt");
 
     @Test
     void getAnswerPart1() {
