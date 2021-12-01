@@ -1,4 +1,4 @@
-public class BaseDay extends Day<Integer, Integer> {
+public class BaseDay extends Day<Integer> {
 
   public static void main(String[] args) {
     BaseDay puzzle = new BaseDay(
@@ -13,11 +13,11 @@ public class BaseDay extends Day<Integer, Integer> {
   }
 
   public Integer getAnswerPart1() {
-    return Integer.parseInt(puzzleInput.get(0));
+    return Integer.parseInt(rawPuzzleInput.get(0));
   }
 
   public Integer getAnswerPart2() {
-    return Integer.parseInt(puzzleInput.get(1));
+    return Integer.parseInt(rawPuzzleInput.get(1));
   }
 
 }
