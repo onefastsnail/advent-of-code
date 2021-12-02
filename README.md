@@ -6,3 +6,4 @@ For historic and self reflection purposes, my solutions to [Advent of Code](http
 
 - [2019 / Elm](./2019)
 - [2020 / Elm](./2020)
+- [2021 / Java](./2021)
