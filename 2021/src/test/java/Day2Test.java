@@ -18,7 +18,7 @@ class Day2Test {
 
     @Test
     void getAnswerPart2() {
-      assertEquals(puzzle.getAnswerPart2(), 2);
+      assertEquals(puzzle.getAnswerPart2(), 900);
     }
   }
 
@@ -35,7 +35,7 @@ class Day2Test {
 
     @Test
     void getAnswerPart2() {
-      assertEquals(puzzle.getAnswerPart2(), 2);
+      assertEquals(puzzle.getAnswerPart2(), 1739283308);
     }
   }
 

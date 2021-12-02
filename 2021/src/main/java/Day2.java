@@ -28,7 +28,12 @@ public class Day2 extends Day<Integer> {
 
 
   public Integer getAnswerPart2() {
-    return 2;
+    List<Pair<String, Integer>> steps = parsePuzzleInput(rawPuzzleInput);
+
+    Plotter myPlotter = new Plotter();
+    myPlotter.plotV2(steps);
+
+    return myPlotter.xPos * myPlotter.yPos;
   }
 
   static List<Pair<String, Integer>> parsePuzzleInput(List<String> puzzleInput) {
