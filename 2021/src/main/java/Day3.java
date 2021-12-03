@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 public class Day3 extends Day<Integer> {
 
   public static void main(String[] args) {
-    Day3 puzzle = new Day3(
+    var puzzle = new Day3(
         "src/main/resources/day3.txt");
 
     System.out.format("Then answer to part 1 is %s \n", puzzle.getAnswerPart1());
@@ -18,14 +18,14 @@ public class Day3 extends Day<Integer> {
 
   public Integer getAnswerPart1() {
     List<List<Integer>> parsedPuzzleInput = parsePuzzleInput(rawPuzzleInput);
-    DiagnosticReport report = new DiagnosticReport(parsedPuzzleInput);
+    var report = new DiagnosticReport(parsedPuzzleInput);
 
     return report.calculatePowerConsumption();
   }
 
   public Integer getAnswerPart2() {
     List<List<Integer>> parsedPuzzleInput = parsePuzzleInput(rawPuzzleInput);
-    DiagnosticReport report = new DiagnosticReport(parsedPuzzleInput);
+    var report = new DiagnosticReport(parsedPuzzleInput);
 
     return report.calculateLifeSupportRating();
   }

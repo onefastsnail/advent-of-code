@@ -1,7 +1,7 @@
 public class BaseDay extends Day<Integer> {
 
   public static void main(String[] args) {
-    BaseDay puzzle = new BaseDay(
+    var puzzle = new BaseDay(
         "src/main/resources/base-day.txt");
 
     System.out.format("Then answer to part 1 is %s \n", puzzle.getAnswerPart1());
