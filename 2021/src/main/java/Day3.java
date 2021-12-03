@@ -1,7 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.javatuples.Pair;
 
 public class Day3 extends Day<Integer> {
 
@@ -20,13 +19,15 @@ public class Day3 extends Day<Integer> {
   public Integer getAnswerPart1() {
     List<List<Integer>> parsedPuzzleInput = parsePuzzleInput(rawPuzzleInput);
     DiagnosticReport report = new DiagnosticReport(parsedPuzzleInput);
-    report.run();
 
-    return report.gammaRate * report.epsilonRate;
+    return report.calculatePowerConsumption();
   }
 
   public Integer getAnswerPart2() {
-    return 2;
+    List<List<Integer>> parsedPuzzleInput = parsePuzzleInput(rawPuzzleInput);
+    DiagnosticReport report = new DiagnosticReport(parsedPuzzleInput);
+
+    return report.calculateLifeSupportRating();
   }
 
   static List<List<Integer>> parsePuzzleInput(List<String> puzzleInput) {

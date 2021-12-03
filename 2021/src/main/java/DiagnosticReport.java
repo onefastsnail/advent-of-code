@@ -1,16 +1,20 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class DiagnosticReport {
   public List<List<Integer>> bits;
   public Integer gammaRate = 0;
   public Integer epsilonRate = 0;
+  public Integer oxygenRating = 0;
+  public Integer co2Rating = 0;
 
   public DiagnosticReport(List<List<Integer>> rawBits){
     bits = rawBits;
   }
 
-  public void run(){
+  public Integer calculatePowerConsumption(){
     Integer width = bits.get(0).size();
     List<List<Integer>> newBits = new ArrayList<>();
     List<String> mostCommonBits = new ArrayList<>();
@@ -37,32 +41,74 @@ public class DiagnosticReport {
       return a + b;
     }), 2 );
 
+    return gammaRate * epsilonRate;
   }
 
-  public static Integer getLeastPopularBit(List<Integer> a) {
-    Integer popular = 0;
+  public Integer calculateLifeSupportRating(){
+    List<Integer> oxygenList = find(0, bits, DiagnosticReport::getMostPopularBit);
+    oxygenRating = lineToNumber(oxygenList);
 
-    Integer total = a.stream()
-      .reduce(0, Integer::sum);
+    List<Integer> co2List = find(0, bits, DiagnosticReport::getLeastPopularBit);
+    co2Rating = lineToNumber(co2List);
 
-    if(total < a.size() / 2){
-      popular = 1;
+    return oxygenRating * co2Rating;
+  }
+
+  public static List<Integer> find(final Integer index, final List<List<Integer>> list, Function<List<Integer>, Integer> getPopularFn){
+    List<Integer> line = buildLine(index, list);
+    Integer popular = getPopularFn.apply(line);
+
+    List<List<Integer>> newList = new ArrayList<>();
+    for (int i = 0; i < list.size(); i++) {
+      if(list.get(i).get(index) == popular){
+        newList.add(list.get(i));
+      }
     }
 
-    return popular;
-  }
-
-  public static Integer getMostPopularBit(List<Integer> a) {
-    Integer popular = 0;
-
-    Integer total = a.stream()
-        .reduce(0, Integer::sum);
-
-    if(total > a.size() / 2){
-      popular = 1;
+    if(newList.size() == 1){
+      return newList.get(0);
     }
 
-    return popular;
+    return find(index + 1, newList, getPopularFn);
   }
 
+  public static List<Integer> buildLine(Integer i, final List<List<Integer>> list){
+    List<Integer> x = new ArrayList<>();
+
+    for (int j = 0; j < list.size(); j++) {
+      x.add(list.get(j).get(i));
+    }
+
+    return x;
+  }
+
+  public static Integer getLeastPopularBit(final List<Integer> a) {
+    Integer ones = a.stream().filter(i -> i == 1).collect(Collectors.toList()).size();
+    Integer zeros = a.stream().filter(i -> i == 0).collect(Collectors.toList()).size();
+
+    if(zeros <= ones){
+      return 0;
+    }
+
+    return 1;
+  }
+
+  public static Integer getMostPopularBit(final List<Integer> a) {
+    Integer ones = a.stream().filter(i -> i == 1).collect(Collectors.toList()).size();
+    Integer zeros = a.stream().filter(i -> i == 0).collect(Collectors.toList()).size();
+
+    if(ones >= zeros){
+      return 1;
+    }
+
+    return 0;
+  }
+
+  public static Integer lineToNumber(final List<Integer> list){
+    List<String> line = list.stream().map(i -> String.valueOf(i)).collect(Collectors.toList());
+
+    return Integer.parseInt(line.stream().reduce("", (a, b) -> {
+      return a + b;
+    }), 2);
+  }
 }

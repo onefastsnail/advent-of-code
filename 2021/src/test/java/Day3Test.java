@@ -16,10 +16,10 @@ class Day3Test {
       assertEquals(puzzle.getAnswerPart1(), 198);
     }
 
-//    @Test
-//    void getAnswerPart2() {
-//      assertEquals(puzzle.getAnswerPart2(), 900);
-//    }
+    @Test
+    void getAnswerPart2() {
+      assertEquals(puzzle.getAnswerPart2(), 230);
+    }
   }
 
   @Nested
@@ -33,10 +33,10 @@ class Day3Test {
       assertEquals(puzzle.getAnswerPart1(), 4191876);
     }
 
-//    @Test
-//    void getAnswerPart2() {
-//      assertEquals(puzzle.getAnswerPart2(), 1739283308);
-//    }
+    @Test
+    void getAnswerPart2() {
+      assertEquals(puzzle.getAnswerPart2(), 3414905);
+    }
   }
 
 
