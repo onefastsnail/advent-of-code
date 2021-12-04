@@ -19,5 +19,4 @@ public class BaseDay extends Day<Integer> {
   public Integer getAnswerPart2() {
     return Integer.parseInt(rawPuzzleInput.get(1));
   }
-
 }
