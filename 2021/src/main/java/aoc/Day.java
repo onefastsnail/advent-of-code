@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-public abstract class Day<Answer> {
+public abstract class Day<T> {
 
   public List<String> rawPuzzleInput;
 
@@ -23,7 +23,7 @@ public abstract class Day<Answer> {
     }
   }
 
-  public abstract Answer getAnswerPart1();
+  public abstract T getAnswerPart1();
 
-  public abstract Answer getAnswerPart2();
+  public abstract T getAnswerPart2();
 }
