@@ -1,6 +1,7 @@
+package aoc;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 
 public class DiagnosticReport {
@@ -50,7 +51,7 @@ public class DiagnosticReport {
 
     List<List<Integer>> newList = new ArrayList<>();
     for (var integers : list) {
-      if (Objects.equals(integers.get(index), popular)) {
+      if (integers.get(index) == popular) {
         newList.add(integers);
       }
     }
@@ -73,8 +74,8 @@ public class DiagnosticReport {
   }
 
   public static Integer getLeastPopularBit(final List<Integer> a) {
-    Integer ones = a.stream().filter(i -> i == 1).toList().size();
-    Integer zeros = a.stream().filter(i -> i == 0).toList().size();
+    var ones = a.stream().filter(i -> i == 1).toList().size();
+    var zeros = a.stream().filter(i -> i == 0).toList().size();
 
     if(zeros <= ones){
       return 0;
@@ -84,8 +85,8 @@ public class DiagnosticReport {
   }
 
   public static Integer getMostPopularBit(final List<Integer> a) {
-    Integer ones = a.stream().filter(i -> i == 1).toList().size();
-    Integer zeros = a.stream().filter(i -> i == 0).toList().size();
+    var ones = a.stream().filter(i -> i == 1).toList().size();
+    var zeros = a.stream().filter(i -> i == 0).toList().size();
 
     if(ones >= zeros){
       return 1;
@@ -95,7 +96,7 @@ public class DiagnosticReport {
   }
 
   public static Integer lineToNumber(final List<Integer> list){
-    List<String> line = list.stream().map(String::valueOf).toList();
+    var line = list.stream().map(String::valueOf).toList();
 
     return Integer.parseInt(line.stream().reduce("", (a, b) -> a + b), 2);
   }

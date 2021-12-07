@@ -1,5 +1,6 @@
+package aoc;
+
 import java.util.List;
-import org.javatuples.Pair;
 
 public class Plotter {
 
@@ -7,13 +8,12 @@ public class Plotter {
   public Integer yPos = 0;
   public Integer aim = 0;
 
-  public Plotter() {
-  }
+  public record Command(String direction, int amount) {}
 
-  public void plot(List<Pair<String, Integer>> steps) {
+  public void plot(List<Command> steps) {
     steps.forEach(step -> {
-      String dir = step.getValue0();
-      Integer unit = step.getValue1();
+      String dir = step.direction();
+      Integer unit = step.amount();
 
       if (dir.equals("forward")) {
         xPos += unit;
@@ -29,10 +29,10 @@ public class Plotter {
     });
   }
 
-  public void plotV2(List<Pair<String, Integer>> steps) {
+  public void plotV2(List<Command> steps) {
     steps.forEach(step -> {
-      String dir = step.getValue0();
-      Integer unit = step.getValue1();
+      String dir = step.direction();
+      Integer unit = step.amount();
 
       if (dir.equals("forward")) {
         xPos += unit;

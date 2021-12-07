@@ -1,3 +1,5 @@
+package aoc;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,14 +19,14 @@ public class Day3 extends Day<Integer> {
   }
 
   public Integer getAnswerPart1() {
-    List<List<Integer>> parsedPuzzleInput = parsePuzzleInput(rawPuzzleInput);
+    var parsedPuzzleInput = parsePuzzleInput(rawPuzzleInput);
     var report = new DiagnosticReport(parsedPuzzleInput);
 
     return report.calculatePowerConsumption();
   }
 
   public Integer getAnswerPart2() {
-    List<List<Integer>> parsedPuzzleInput = parsePuzzleInput(rawPuzzleInput);
+    var parsedPuzzleInput = parsePuzzleInput(rawPuzzleInput);
     var report = new DiagnosticReport(parsedPuzzleInput);
 
     return report.calculateLifeSupportRating();
@@ -32,7 +34,7 @@ public class Day3 extends Day<Integer> {
 
   static List<List<Integer>> parsePuzzleInput(List<String> puzzleInput) {
     return puzzleInput.stream().map(i -> {
-      List<String> parts = Arrays.asList(i.split(""));
+      var parts = Arrays.asList(i.split(""));
       return parts.stream().map(Integer::parseInt)
           .collect(Collectors.toList());
     }).collect(Collectors.toList());

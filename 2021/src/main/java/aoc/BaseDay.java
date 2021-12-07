@@ -1,3 +1,5 @@
+package aoc;
+
 public class BaseDay extends Day<Integer> {
 
   public static void main(String[] args) {

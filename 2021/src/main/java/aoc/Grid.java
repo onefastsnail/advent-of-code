@@ -1,11 +1,13 @@
+package aoc;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Grid {
-  List<List<Point>> matrix;
+  List<List<Line>> matrix;
   List<Line> lines = new ArrayList<>();
 
   public Grid(Integer width, Integer height){
@@ -22,12 +24,12 @@ public class Grid {
     }
   }
 
-  public HashMap<String, Integer> findOverlaps(){
-    HashMap<String, Integer> overlaps = new HashMap<>();
+  public Map<String, Integer> findOverlaps(){
+    Map<String, Integer> overlaps = new HashMap<>();
 
     for (var line: lines) {
       for (var point: line.points) {
-        var key = String.format("%d,%d", point.x, point.y);
+        var key = String.format("%d,%d", point.x(), point.y());
 
         if(!overlaps.containsKey(key)) {
           overlaps.put(key, 1);
@@ -42,14 +44,7 @@ public class Grid {
   }
 
   public Integer countOverlaps(Integer greaterThan){
-    AtomicInteger counter = new AtomicInteger();
-    findOverlaps().forEach((k, v) -> {
-      if(v > greaterThan){
-        counter.getAndIncrement();
-      }
-    });
-
-    return counter.get();
+    return findOverlaps().values().stream().filter(i -> i > greaterThan).toList().size();
   }
 
   private void make(Integer width, Integer height){
@@ -57,3 +52,4 @@ public class Grid {
     IntStream.range(0, height).forEach(i -> matrix.add(new ArrayList<>(width)));
   }
 }
+

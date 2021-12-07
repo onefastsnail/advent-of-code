@@ -1,9 +1,8 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import aoc.Line;
+import aoc.Point;
 
 class LineTest {
 

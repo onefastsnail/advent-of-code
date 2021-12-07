@@ -1,3 +1,5 @@
+package aoc;
+
 import java.util.Collection;
 import java.util.List;
 import org.apache.commons.lang3.tuple.MutablePair;

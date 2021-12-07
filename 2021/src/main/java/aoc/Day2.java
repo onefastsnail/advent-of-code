@@ -1,7 +1,8 @@
-import java.util.Arrays;
+package aoc;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import org.javatuples.Pair;
+import aoc.Plotter.Command;
 
 public class Day2 extends Day<Integer> {
 
@@ -18,7 +19,7 @@ public class Day2 extends Day<Integer> {
   }
 
   public Integer getAnswerPart1() {
-    List<Pair<String, Integer>> steps = parsePuzzleInput(rawPuzzleInput);
+    var steps = parsePuzzleInput(rawPuzzleInput);
 
     Plotter myPlotter = new Plotter();
     myPlotter.plot(steps);
@@ -28,7 +29,7 @@ public class Day2 extends Day<Integer> {
 
 
   public Integer getAnswerPart2() {
-    List<Pair<String, Integer>> steps = parsePuzzleInput(rawPuzzleInput);
+    var steps = parsePuzzleInput(rawPuzzleInput);
 
     Plotter myPlotter = new Plotter();
     myPlotter.plotV2(steps);
@@ -36,12 +37,10 @@ public class Day2 extends Day<Integer> {
     return myPlotter.xPos * myPlotter.yPos;
   }
 
-  static List<Pair<String, Integer>> parsePuzzleInput(List<String> puzzleInput) {
+  static List<Command> parsePuzzleInput(List<String> puzzleInput) {
     return puzzleInput.stream().map(i -> {
-      List<String> parts = Arrays.asList(i.split(" "));
-      String a = parts.get(0);
-      Integer b = Integer.parseInt(parts.get(1));
-      return new Pair<>(a, b);
+      var parts = i.split(" ");
+      return new Command(parts[0], Integer.parseInt(parts[1]));
     }).collect(Collectors.toList());
   }
 
