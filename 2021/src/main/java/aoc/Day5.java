@@ -34,7 +34,7 @@ public class Day5 extends Day<Integer> {
     return grid.countOverlaps(1);
   }
 
-  private List<Line> parseInput(List<String> input){
+  private List<Line> parseInput(List<String> input) {
     return input.stream()
         .map(i ->
             Arrays.stream(i.split(" -> "))

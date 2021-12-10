@@ -5,10 +5,11 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 public class Board {
+
   public Integer id;
   public List<List<MutablePair<Integer, Boolean>>> data;
 
-  public Board(Integer id){
+  public Board(Integer id) {
     this.id = id;
   }
 

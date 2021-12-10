@@ -1,8 +1,8 @@
 package aoc;
 
+import aoc.Plotter.Command;
 import java.util.List;
 import java.util.stream.Collectors;
-import aoc.Plotter.Command;
 
 public class Day2 extends Day<Integer> {
 

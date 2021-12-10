@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.function.Function;
 
 public class DiagnosticReport {
+
   public List<List<Integer>> bits;
 
-  public DiagnosticReport(List<List<Integer>> bits){
+  public DiagnosticReport(List<List<Integer>> bits) {
     this.bits = bits;
   }
 
-  public Integer calculatePowerConsumption(){
+  public Integer calculatePowerConsumption() {
     Integer width = bits.get(0).size();
     List<List<Integer>> newBits = new ArrayList<>();
     List<Integer> mostCommonBits = new ArrayList<>();
@@ -35,7 +36,7 @@ public class DiagnosticReport {
     return gammaRate * epsilonRate;
   }
 
-  public Integer calculateLifeSupportRating(){
+  public Integer calculateLifeSupportRating() {
     var oxygenList = find(0, bits, DiagnosticReport::getMostPopularBit);
     var oxygenRating = lineToNumber(oxygenList);
 
@@ -45,7 +46,8 @@ public class DiagnosticReport {
     return oxygenRating * co2Rating;
   }
 
-  public static List<Integer> find(final Integer index, final List<List<Integer>> list, Function<List<Integer>, Integer> getPopularFn){
+  public static List<Integer> find(final Integer index, final List<List<Integer>> list,
+      Function<List<Integer>, Integer> getPopularFn) {
     var line = buildLine(index, list);
     var popular = getPopularFn.apply(line);
 
@@ -56,14 +58,14 @@ public class DiagnosticReport {
       }
     }
 
-    if(newList.size() == 1){
+    if (newList.size() == 1) {
       return newList.get(0);
     }
 
     return find(index + 1, newList, getPopularFn);
   }
 
-  public static List<Integer> buildLine(Integer i, final List<List<Integer>> list){
+  public static List<Integer> buildLine(Integer i, final List<List<Integer>> list) {
     List<Integer> x = new ArrayList<>();
 
     for (var integers : list) {
@@ -77,7 +79,7 @@ public class DiagnosticReport {
     var ones = a.stream().filter(i -> i == 1).toList().size();
     var zeros = a.stream().filter(i -> i == 0).toList().size();
 
-    if(zeros <= ones){
+    if (zeros <= ones) {
       return 0;
     }
 
@@ -88,14 +90,14 @@ public class DiagnosticReport {
     var ones = a.stream().filter(i -> i == 1).toList().size();
     var zeros = a.stream().filter(i -> i == 0).toList().size();
 
-    if(ones >= zeros){
+    if (ones >= zeros) {
       return 1;
     }
 
     return 0;
   }
 
-  public static Integer lineToNumber(final List<Integer> list){
+  public static Integer lineToNumber(final List<Integer> list) {
     var line = list.stream().map(String::valueOf).toList();
 
     return Integer.parseInt(line.stream().reduce("", (a, b) -> a + b), 2);

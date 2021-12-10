@@ -8,7 +8,9 @@ public class Plotter {
   public Integer yPos = 0;
   public Integer aim = 0;
 
-  public record Command(String direction, int amount) {}
+  public record Command(String direction, int amount) {
+
+  }
 
   public void plot(List<Command> steps) {
     steps.forEach(step -> {

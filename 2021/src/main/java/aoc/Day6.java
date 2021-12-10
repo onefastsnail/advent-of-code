@@ -34,7 +34,7 @@ public class Day6 extends Day<BigInteger> {
     return school.getCount();
   }
 
-  private List<Integer> parseInput(List<String> input){
+  private List<Integer> parseInput(List<String> input) {
     return Arrays.stream(input.get(0).split(",")).map(Integer::parseInt).toList();
   }
 }

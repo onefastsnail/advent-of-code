@@ -1,10 +1,10 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import aoc.Day;
 import aoc.Day6;
 import java.math.BigInteger;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import aoc.Day;
 
 class Day6Test {
 
@@ -16,7 +16,7 @@ class Day6Test {
 
     @Test
     void getAnswerPart1() {
-      assertEquals(puzzle.getAnswerPart1(), 5934);
+      assertEquals(puzzle.getAnswerPart1(), new BigInteger("5934"));
     }
 
     @Test

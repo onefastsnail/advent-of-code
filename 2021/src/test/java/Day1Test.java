@@ -1,9 +1,9 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import aoc.Day;
 import aoc.Day1;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 class Day1Test {
 

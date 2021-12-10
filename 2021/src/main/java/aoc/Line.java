@@ -29,7 +29,7 @@ public class Line {
     } else {
       var a = Math.min(start.y(), end.y());
       var b = Math.max(start.y(), end.y());
-      var x =  a == start.y() ? start.x() : end.x();
+      var x = a == start.y() ? start.x() : end.x();
       var ys = IntStream.range(a, b + 1).toArray();
 
       for (int y : ys) {
@@ -37,17 +37,15 @@ public class Line {
 
         // Which direction? We always walk down the line.
         if (a == start.y()) {
-          if(start.x() < end.x()) {
+          if (start.x() < end.x()) {
             x++;
-          }
-          else {
+          } else {
             x--;
           }
         } else {
-          if(start.x() > end.x()) {
+          if (start.x() > end.x()) {
             x++;
-          }
-          else {
+          } else {
             x--;
           }
         }

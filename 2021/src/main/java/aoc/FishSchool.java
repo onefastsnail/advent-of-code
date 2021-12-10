@@ -25,17 +25,18 @@ Without the fish count would not grow.
  */
 
 public class FishSchool {
+
   // Setup the cycle with no fish initially
   public List<BigInteger> cycle = new ArrayList<>(Collections.nCopies(9, new BigInteger("0")));
 
-  public FishSchool(List<Integer> initialState){
+  public FishSchool(List<Integer> initialState) {
     // Place the initial fish into the cycle
-    for (var fish: initialState) {
+    for (var fish : initialState) {
       increment(fish, new BigInteger("1"));
     }
   }
 
-  public void tick(Integer howMuch){
+  public void tick(Integer howMuch) {
     for (int i = 0; i < howMuch; i++) {
       // Fish on cycle stage 0 now breed
       // Grab them and move to the end to start at the cycle stage 8
@@ -50,11 +51,11 @@ public class FishSchool {
     }
   }
 
-  private void increment(Integer index, BigInteger value){
+  private void increment(Integer index, BigInteger value) {
     cycle.set(index, cycle.get(index).add(value));
   }
 
-  public BigInteger getCount(){
+  public BigInteger getCount() {
     return cycle.stream().reduce(BigInteger::add).get();
   }
 }

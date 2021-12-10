@@ -7,10 +7,11 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Grid {
+
   List<List<Line>> matrix;
   List<Line> lines = new ArrayList<>();
 
-  public Grid(Integer width, Integer height){
+  public Grid(Integer width, Integer height) {
     make(width, height);
   }
 
@@ -19,22 +20,21 @@ public class Grid {
   }
 
   public void draw(List<Line> newLines) {
-    for (var line: newLines) {
+    for (var line : newLines) {
       draw(line);
     }
   }
 
-  public Map<String, Integer> findOverlaps(){
+  public Map<String, Integer> findOverlaps() {
     Map<String, Integer> overlaps = new HashMap<>();
 
-    for (var line: lines) {
-      for (var point: line.points) {
+    for (var line : lines) {
+      for (var point : line.points) {
         var key = String.format("%d,%d", point.x(), point.y());
 
-        if(!overlaps.containsKey(key)) {
+        if (!overlaps.containsKey(key)) {
           overlaps.put(key, 1);
-        }
-        else{
+        } else {
           overlaps.put(key, overlaps.get(key) + 1);
         }
       }
@@ -43,11 +43,11 @@ public class Grid {
     return overlaps;
   }
 
-  public Integer countOverlaps(Integer greaterThan){
+  public Integer countOverlaps(Integer greaterThan) {
     return findOverlaps().values().stream().filter(i -> i > greaterThan).toList().size();
   }
 
-  private void make(Integer width, Integer height){
+  private void make(Integer width, Integer height) {
     matrix = new ArrayList<>(height);
     IntStream.range(0, height).forEach(i -> matrix.add(new ArrayList<>(width)));
   }

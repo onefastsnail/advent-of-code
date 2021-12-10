@@ -1,10 +1,10 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import aoc.DiagnosticReport;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
-import aoc.DiagnosticReport;
 
 public class DiagnosticReportTest {
 
@@ -30,9 +30,10 @@ public class DiagnosticReportTest {
   }
 
   @Test
-  void buildLine(){
+  void buildLine() {
 
-    List<List<Integer>> input = Arrays.asList(Arrays.asList(1, 2, 3), Arrays.asList(2, 3, 4), Arrays.asList(3, 4, 5));
+    List<List<Integer>> input = Arrays.asList(Arrays.asList(1, 2, 3), Arrays.asList(2, 3, 4),
+        Arrays.asList(3, 4, 5));
 
     assertEquals(DiagnosticReport.buildLine(0, input), Arrays.asList(1, 2, 3));
     assertEquals(DiagnosticReport.buildLine(1, input), Arrays.asList(2, 3, 4));
@@ -40,8 +41,9 @@ public class DiagnosticReportTest {
   }
 
   @Test
-  void find(){
-    List<List<Integer>> input = Arrays.asList(Arrays.asList(1, 1, 1), Arrays.asList(1, 0, 0), Arrays.asList(0, 0, 0));
+  void find() {
+    List<List<Integer>> input = Arrays.asList(Arrays.asList(1, 1, 1), Arrays.asList(1, 0, 0),
+        Arrays.asList(0, 0, 0));
     List<Integer> expected = Arrays.asList(1, 1, 1);
 
     assertEquals(DiagnosticReport.find(0, input, DiagnosticReport::getMostPopularBit), expected);
