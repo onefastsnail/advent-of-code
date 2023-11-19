@@ -22,20 +22,20 @@ internal class PuzzleTest {
             part1(readFile(File("src/main/kotlin/com/onefastsnail/day3/resources/input.txt").absolutePath))
         )
     }
-//
-//    @Test
-//    fun testPart2Teaser() {
-//        assertEquals(
-//            12,
-//            part2(readFile(File("src/main/kotlin/com/onefastsnail/day3/resources/input-teaser1.txt").absolutePath))
-//        )
-//    }
-//
-//    @Test
-//    fun testPart2() {
-//        assertEquals(
-//            14060,
-//            part2(readFile(File("src/main/kotlin/com/onefastsnail/day3/resources/input.txt").absolutePath))
-//        )
-//    }
+
+    @Test
+    fun testPart2Teaser() {
+        assertEquals(
+            70,
+            part2(readFile(File("src/main/kotlin/com/onefastsnail/day3/resources/input-teaser1.txt").absolutePath))
+        )
+    }
+
+    @Test
+    fun testPart2() {
+        assertEquals(
+            2508,
+            part2(readFile(File("src/main/kotlin/com/onefastsnail/day3/resources/input.txt").absolutePath))
+        )
+    }
 }
