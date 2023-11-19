@@ -12,15 +12,14 @@ fun main() {
 }
 
 fun part1(input: List<String>): Int {
-    val assignments = input.map { it.split(",").map { it.split("-") } }
+    val assignmentPairs = convertToAssignmentsPairs(input)
 
-    val assignmentRanges = assignments.map { it.map { (it[0].toInt()..it[1].toInt()).map { it } } }
+    val assignmentRanges = assignmentPairs.map { it.map { (it[0]..it[1]).map { it } } }
 
     return assignmentRanges.fold(0) { acc, pairs ->
         val overlaps = pairs[0].intersect(pairs[1])
 
-        if (overlaps.size >= pairs[0].size || overlaps.size >= pairs[1].size
-        ) {
+        if (overlaps.size >= pairs[0].size || overlaps.size >= pairs[1].size) {
             acc + 1
         } else {
             acc
@@ -29,5 +28,21 @@ fun part1(input: List<String>): Int {
 }
 
 fun part2(input: List<String>): Int {
-    return 0
+    val assignmentPairs = convertToAssignmentsPairs(input)
+
+    val assignmentRanges = assignmentPairs.map { it.map { (it[0]..it[1]).map { it } } }
+
+    return assignmentRanges.fold(0) { acc, pairs ->
+        val overlaps = pairs[0].intersect(pairs[1])
+
+        if (overlaps.isNotEmpty()) {
+            acc + 1
+        } else {
+            acc
+        }
+    }
+}
+
+private fun convertToAssignmentsPairs(input: List<String>): List<List<List<Int>>> {
+    return input.map { it.split(",").map { it.split("-").map { it.toInt() } } }
 }

@@ -42,7 +42,7 @@ internal class PuzzleTest {
     @Test
     fun testPart2Teaser() {
         assertEquals(
-            0,
+            4,
             part2(readFile(File("src/main/kotlin/com/onefastsnail/day4/resources/input-teaser1.txt").absolutePath))
         )
     }
@@ -50,7 +50,7 @@ internal class PuzzleTest {
     @Test
     fun testPart2() {
         assertEquals(
-            0,
+            823,
             part2(readFile(File("src/main/kotlin/com/onefastsnail/day4/resources/input.txt").absolutePath))
         )
     }
