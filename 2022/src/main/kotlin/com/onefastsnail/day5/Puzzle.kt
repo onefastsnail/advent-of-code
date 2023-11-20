@@ -32,8 +32,25 @@ fun part1(input: List<String>): String {
     return updatedStacks.map { it.take(1) }.flatten().joinToString("")
 }
 
-fun part2(input: List<String>): Int {
-    return 0
+fun part2(input: List<String>): String {
+    val stacksAndMoves = getStackAndMoves(input)
+
+    val updatedStacks =
+        stacksAndMoves.first.fold(stacksAndMoves.second.map { it.toMutableList() }.toMutableList()) { acc, move ->
+            // Crates we need to move, in order of how they would be stacked
+            var crates = acc[move.second - 1].take(move.first)
+
+            // Stack we need to remove crates from
+            acc[move.second - 1] =
+                acc[move.second - 1].drop(move.first).toMutableList()
+
+            // Stack we need to add crates to
+            acc[move.third - 1].addAll(0, crates)
+
+            acc
+        }
+
+    return updatedStacks.map { it.take(1) }.flatten().joinToString("")
 }
 
 fun getStackAndMoves(input: List<String>): Pair<List<Triple<Int, Int, Int>>, MutableList<MutableList<String>>> {
