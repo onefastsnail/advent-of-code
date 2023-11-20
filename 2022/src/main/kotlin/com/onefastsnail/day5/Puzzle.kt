@@ -17,14 +17,15 @@ fun part1(input: List<String>): String {
     val updatedStacks =
         stacksAndMoves.first.fold(stacksAndMoves.second.map { it.toMutableList() }.toMutableList()) { acc, move ->
             // Crates we need to move, in order of how they would be stacked
-            val crates = acc[move.second - 1].take(move.first).asReversed()
+            var crates = acc.getOrNull(move.second - 1)?.take(move.first)?.asReversed() ?: emptyList()
 
             // Stack we need to remove crates from
-            acc[move.second - 1] =
-                acc[move.second - 1].drop(move.first).toMutableList()
+            acc.get(move.second - 1)?.let { list ->
+                acc[move.second - 1] = list.drop(move.first).toMutableList()
+            }
 
             // Stack we need to add crates to
-            acc[move.third - 1].addAll(0, crates)
+            acc.getOrNull(move.third - 1)?.addAll(0, crates)
 
             acc
         }
@@ -38,14 +39,15 @@ fun part2(input: List<String>): String {
     val updatedStacks =
         stacksAndMoves.first.fold(stacksAndMoves.second.map { it.toMutableList() }.toMutableList()) { acc, move ->
             // Crates we need to move, in order of how they would be stacked
-            var crates = acc[move.second - 1].take(move.first)
+            var crates = acc.getOrNull(move.second - 1)?.take(move.first) ?: emptyList()
 
             // Stack we need to remove crates from
-            acc[move.second - 1] =
-                acc[move.second - 1].drop(move.first).toMutableList()
+            acc.get(move.second - 1)?.let { list ->
+                acc[move.second - 1] = list.drop(move.first).toMutableList()
+            }
 
             // Stack we need to add crates to
-            acc[move.third - 1].addAll(0, crates)
+            acc.getOrNull(move.third - 1)?.addAll(0, crates)
 
             acc
         }
