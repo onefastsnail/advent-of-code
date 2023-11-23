@@ -12,13 +12,16 @@ fun main() {
 }
 
 fun part1(input: String): Int {
-    var windowSize = 4
+    return findMarker(input, 4)
+}
+
+fun part2(input: String): Int {
+    return findMarker(input, 14)
+}
+
+private fun findMarker(input: String, windowSize: Int): Int {
     var windows = input.windowed(windowSize, 1)
     var startMarker = windows.indexOfFirst { it.toCharArray().toSet().size == windowSize }
 
     return windowSize + startMarker
-}
-
-fun part2(input: String): Int {
-    return 0
 }
