@@ -1,13 +1,13 @@
 package com.onefastsnail.day5
 
-import com.onefastsnail.utils.readFile
+import com.onefastsnail.utils.readFileLines
 import java.io.File
 
 fun main() {
-    val part1 = part1(readFile(File("src/main/kotlin/com/onefastsnail/day5/resources/input.txt").absolutePath))
+    val part1 = part1(readFileLines(File("src/main/kotlin/com/onefastsnail/day5/resources/input.txt").absolutePath))
     println("Part 1: $part1")
 
-    val part2 = part2(readFile(File("src/main/kotlin/com/onefastsnail/day5/resources/input.txt").absolutePath))
+    val part2 = part2(readFileLines(File("src/main/kotlin/com/onefastsnail/day5/resources/input.txt").absolutePath))
     println("Part 2: $part2")
 }
 
@@ -61,6 +61,8 @@ fun getStackAndMoves(input: List<String>): Pair<List<Triple<Int, Int, Int>>, Mut
             it.firstOrNull { it.isLetter() }
         }
     }
+
+    val x = "hello"
 
     val verticalStacks = stacks.fold(mutableListOf<MutableList<String>>()) { acc, crates ->
         crates.mapIndexed { index, crate ->

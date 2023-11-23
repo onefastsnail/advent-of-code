@@ -4,4 +4,5 @@ fun main() {
     com.onefastsnail.day3.main()
     com.onefastsnail.day4.main()
     com.onefastsnail.day5.main()
+    com.onefastsnail.day6.main()
 }

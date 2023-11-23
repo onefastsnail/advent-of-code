@@ -1,13 +1,13 @@
 package com.onefastsnail.day3
 
-import com.onefastsnail.utils.readFile
+import com.onefastsnail.utils.readFileLines
 import java.io.File
 
 fun main() {
-    val part1 = part1(readFile(File("src/main/kotlin/com/onefastsnail/day3/resources/input.txt").absolutePath))
+    val part1 = part1(readFileLines(File("src/main/kotlin/com/onefastsnail/day3/resources/input.txt").absolutePath))
     println("Part 1: $part1")
 
-    val part2 = part2(readFile(File("src/main/kotlin/com/onefastsnail/day3/resources/input.txt").absolutePath))
+    val part2 = part2(readFileLines(File("src/main/kotlin/com/onefastsnail/day3/resources/input.txt").absolutePath))
     println("Part 2: $part2")
 }
 

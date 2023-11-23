@@ -1,6 +1,6 @@
 package com.onefastsnail.day5
 
-import com.onefastsnail.utils.readFile
+import com.onefastsnail.utils.readFileLines
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -24,7 +24,7 @@ internal class PuzzleTest {
 
         assertEquals(
             Pair(moves, stacks),
-            getStackAndMoves(readFile(File("src/main/kotlin/com/onefastsnail/day5/resources/input-teaser1.txt").absolutePath))
+            getStackAndMoves(readFileLines(File("src/main/kotlin/com/onefastsnail/day5/resources/input-teaser1.txt").absolutePath))
         )
     }
 
@@ -32,7 +32,7 @@ internal class PuzzleTest {
     fun testPart1Teaser() {
         assertEquals(
             "CMZ",
-            part1(readFile(File("src/main/kotlin/com/onefastsnail/day5/resources/input-teaser1.txt").absolutePath))
+            part1(readFileLines(File("src/main/kotlin/com/onefastsnail/day5/resources/input-teaser1.txt").absolutePath))
         )
     }
 
@@ -40,7 +40,7 @@ internal class PuzzleTest {
     fun testPart1() {
         assertEquals(
             "CNSZFDVLJ",
-            part1(readFile(File("src/main/kotlin/com/onefastsnail/day5/resources/input.txt").absolutePath))
+            part1(readFileLines(File("src/main/kotlin/com/onefastsnail/day5/resources/input.txt").absolutePath))
         )
     }
 
@@ -48,7 +48,7 @@ internal class PuzzleTest {
     fun testPart2Teaser() {
         assertEquals(
             "MCD",
-            part2(readFile(File("src/main/kotlin/com/onefastsnail/day5/resources/input-teaser1.txt").absolutePath))
+            part2(readFileLines(File("src/main/kotlin/com/onefastsnail/day5/resources/input-teaser1.txt").absolutePath))
         )
     }
 
@@ -56,7 +56,7 @@ internal class PuzzleTest {
     fun testPart2() {
         assertEquals(
             "QNDWLMGNS",
-            part2(readFile(File("src/main/kotlin/com/onefastsnail/day5/resources/input.txt").absolutePath))
+            part2(readFileLines(File("src/main/kotlin/com/onefastsnail/day5/resources/input.txt").absolutePath))
         )
     }
 }

@@ -1,6 +1,6 @@
 package com.onefastsnail.day2
 
-import com.onefastsnail.utils.readFile
+import com.onefastsnail.utils.readFileLines
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -24,7 +24,7 @@ internal class PuzzleTest {
     fun testPart1Teaser() {
         assertEquals(
             15,
-            part1(readFile(File("src/main/kotlin/com/onefastsnail/day2/resources/input-teaser1.txt").absolutePath))
+            part1(readFileLines(File("src/main/kotlin/com/onefastsnail/day2/resources/input-teaser1.txt").absolutePath))
         )
     }
 
@@ -32,7 +32,7 @@ internal class PuzzleTest {
     fun testPart1() {
         assertEquals(
             10624,
-            part1(readFile(File("src/main/kotlin/com/onefastsnail/day2/resources/input.txt").absolutePath))
+            part1(readFileLines(File("src/main/kotlin/com/onefastsnail/day2/resources/input.txt").absolutePath))
         )
     }
 
@@ -40,7 +40,7 @@ internal class PuzzleTest {
     fun testPart2Teaser() {
         assertEquals(
             12,
-            part2(readFile(File("src/main/kotlin/com/onefastsnail/day2/resources/input-teaser1.txt").absolutePath))
+            part2(readFileLines(File("src/main/kotlin/com/onefastsnail/day2/resources/input-teaser1.txt").absolutePath))
         )
     }
 
@@ -48,7 +48,7 @@ internal class PuzzleTest {
     fun testPart2() {
         assertEquals(
             14060,
-            part2(readFile(File("src/main/kotlin/com/onefastsnail/day2/resources/input.txt").absolutePath))
+            part2(readFileLines(File("src/main/kotlin/com/onefastsnail/day2/resources/input.txt").absolutePath))
         )
     }
 }
