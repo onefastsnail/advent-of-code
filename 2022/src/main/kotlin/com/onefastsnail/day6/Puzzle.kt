@@ -20,8 +20,8 @@ fun part2(input: String): Int {
 }
 
 private fun findMarker(input: String, windowSize: Int): Int {
-    var windows = input.windowed(windowSize, 1)
-    var startMarker = windows.indexOfFirst { it.toCharArray().toSet().size == windowSize }
+    val windows = input.windowed(windowSize, 1)
+    val startMarker = windows.indexOfFirst { it.toCharArray().toSet().size == windowSize }
 
     return windowSize + startMarker
 }
