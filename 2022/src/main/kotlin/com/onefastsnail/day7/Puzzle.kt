@@ -20,7 +20,12 @@ fun part1(input: List<String>): Int {
 
 
 fun part2(input: List<String>): Int {
-    return 0
+    val fileTree = buildFileTree(input)
+    val folderSizes = getFolderSizes(fileTree)
+    val spaceLeft = 70000000 - folderSizes.getOrDefault("///", 0)
+    val spaceNeeded = 30000000 - spaceLeft
+
+    return folderSizes.values.sorted().first { it > spaceNeeded }
 }
 
 data class Command(val command: String, val args: String?)
