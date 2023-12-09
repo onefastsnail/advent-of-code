@@ -8,6 +8,8 @@ fn main() {
     println!("Part 2: {}", part2(&input));
 }
 
+const COLORS: [&str; 3] = ["red", "green", "blue"];
+
 struct Game {
     id: i32,
     sets: Vec<HashMap<String, i32>>,
@@ -43,16 +45,34 @@ fn part1(input: &String) -> i32 {
     });
 }
 
-fn part2(_: &String) -> usize {
-    // let lines = input.lines().map(String::from);
+fn part2(input: &String) -> i32 {
+    let lines = input.lines();
 
-    return 0;
+    return lines.fold(0, |acc, it| {
+        let game = build_game(it);
+
+        let sets_ok = game.sets.iter().fold((0, 0, 0), |acc, it| {
+            let green = it.get("green").copied().unwrap_or(0);
+            let red = it.get("red").copied().unwrap_or(0);
+            let blue = it.get("blue").copied().unwrap_or(0);
+
+            let updated = (
+                if green > acc.0 { green } else { acc.0 },
+                if red > acc.1 { red } else { acc.1 },
+                if blue > acc.2 { blue } else { acc.2 },
+            );
+
+            updated
+        });
+
+        let total = sets_ok.0 * sets_ok.1 * sets_ok.2;
+
+        acc + total
+    });
 }
 
 fn build_game(input: &str) -> Game {
     let parts = input.split(": ").collect::<Vec<&str>>();
-
-    let colors = ["red", "green", "blue"];
 
     let game_id_regex = Regex::new(r"(?P<game_id>\d+)").unwrap();
     let colors_regex =
@@ -80,7 +100,7 @@ fn build_game(input: &str) -> Game {
             let mut results = HashMap::new();
 
             for captures in colors_regex.captures_iter(set) {
-                for color in &colors {
+                for &color in &COLORS {
                     if let Some(color_match) = captures.name(color) {
                         if let Ok(parsed_value) = color_match.as_str().parse::<i32>() {
                             results.insert(color.to_string(), parsed_value);
@@ -120,13 +140,13 @@ mod tests {
         let input =
             std::fs::read_to_string("./inputs/day2/input-teaser1.txt").expect("file not found!");
 
-        assert_eq!(part2(&input), 0);
+        assert_eq!(part2(&input), 2286);
     }
 
     #[test]
     fn it_solves_part2() {
         let input = std::fs::read_to_string("./inputs/day2/input.txt").expect("file not found!");
 
-        assert_eq!(part2(&input), 0);
+        assert_eq!(part2(&input), 72513);
     }
 }
