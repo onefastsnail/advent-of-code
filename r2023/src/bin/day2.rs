@@ -16,12 +16,12 @@ struct Game {
 }
 
 fn part1(input: &String) -> i32 {
-    let lines = input.lines().map(String::from);
+    let lines = input.lines();
 
     let rules = vec![("green", 13), ("red", 12), ("blue", 14)];
 
     return lines.fold(0, |acc, it| {
-        let game = build_game(&it);
+        let game = build_game(it);
 
         let sets_ok = game
             .sets
@@ -56,13 +56,7 @@ fn part2(input: &String) -> i32 {
             let red = it.get("red").copied().unwrap_or(0);
             let blue = it.get("blue").copied().unwrap_or(0);
 
-            let updated = (
-                if green > acc.0 { green } else { acc.0 },
-                if red > acc.1 { red } else { acc.1 },
-                if blue > acc.2 { blue } else { acc.2 },
-            );
-
-            updated
+            (green.max(acc.0), red.max(acc.1), blue.max(acc.2))
         });
 
         let total = sets_ok.0 * sets_ok.1 * sets_ok.2;
@@ -80,23 +74,15 @@ fn build_game(input: &str) -> Game {
 
     let game_id = parts
         .first()
-        .map(|&it| {
-            game_id_regex
-                .captures(it)
-                .unwrap()
-                .name("game_id")
-                .unwrap()
-                .as_str()
-                .parse::<i32>()
-                .unwrap()
-        })
-        .unwrap();
+        .and_then(|&part| game_id_regex.captures(part))
+        .and_then(|captures| captures.name("game_id"))
+        .and_then(|game_id| game_id.as_str().parse::<i32>().ok())
+        .expect("Failed to parse game id");
 
-    let raw_sets = parts.last().unwrap().split("; ").collect::<Vec<_>>();
+    let raw_sets = parts.last().expect("No sets found").split("; ");
 
     let sets = raw_sets
-        .iter()
-        .map(|&set| {
+        .map(|set| {
             let mut results = HashMap::new();
 
             for captures in colors_regex.captures_iter(set) {
@@ -109,7 +95,7 @@ fn build_game(input: &str) -> Game {
                 }
             }
 
-            return results;
+            results
         })
         .collect::<Vec<_>>();
 

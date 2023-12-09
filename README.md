@@ -7,3 +7,4 @@ For historic and self reflection purposes, my solutions to [Advent of Code](http
 - [2020 / Elm](./2020)
 - [2021 / Java](./2021)
 - [2022 / Kotlin](./2022)
+- [2023 / Rust](./r2023)

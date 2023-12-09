@@ -10,10 +10,10 @@ const WORDS: [&str; 9] = [
 ];
 
 fn part1(input: &String) -> i32 {
-    let lines = input.lines().map(String::from);
+    let lines = input.lines();
 
     return lines
-        .map(|it| map_to_digits(&it))
+        .map(|it| map_to_digits(it))
         .map(|b| match (b.first(), b.last()) {
             (Some(first), Some(last)) => {
                 let concatenated = format!("{}{}", first, last);
@@ -25,11 +25,11 @@ fn part1(input: &String) -> i32 {
 }
 
 fn part2(input: &String) -> i32 {
-    let lines = input.lines().map(String::from);
+    let lines = input.lines();
 
     return lines
         .map(|it| {
-            let numbers = find_numbers(&it);
+            let numbers = find_numbers(it);
             let concatenated = format!("{}{}", numbers.0, numbers.1);
             concatenated.parse::<i32>().unwrap()
         })
