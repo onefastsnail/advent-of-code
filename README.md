@@ -2,6 +2,7 @@
 
 For historic and self reflection purposes, my solutions to [Advent of Code](https://adventofcode.com).
 
+- [2015 / Python](./2015)
 - [2018 / Rust](./2018)
 - [2019 / Elm](./2019)
 - [2020 / Elm](./2020)
