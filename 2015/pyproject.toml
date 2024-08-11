@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "2015"
 version = "0.1.0"
-description = ""
+description = "Advent of Code"
 authors = ["onefastsnail"]
 readme = "README.md"
 

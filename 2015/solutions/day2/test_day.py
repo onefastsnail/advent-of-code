@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from solutions.day2.solution import part_1, part_2
@@ -9,7 +11,8 @@ def test_part_1_examples(test_input, expected):
 
 
 def test_part_1():
-    f = open("./input.txt", "r")
+    file_path = Path(__file__).resolve().parent / 'input.txt'
+    f = open(file_path, "r")
 
     assert part_1(f.read().splitlines()) == 1606483
 
@@ -20,6 +23,7 @@ def test_part_2_examples(test_input, expected):
 
 
 def test_part_2():
-    f = open("./input.txt", "r")
+    file_path = Path(__file__).resolve().parent / 'input.txt'
+    f = open(file_path, "r")
 
     assert part_2(f.read().splitlines()) == 3842356
