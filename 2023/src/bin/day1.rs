@@ -12,7 +12,7 @@ const WORDS: [&str; 9] = [
 fn part1(input: &String) -> i32 {
     let lines = input.lines();
 
-    return lines
+    lines
         .map(|it| map_to_digits(it))
         .map(|b| match (b.first(), b.last()) {
             (Some(first), Some(last)) => {
@@ -21,19 +21,19 @@ fn part1(input: &String) -> i32 {
             }
             _ => 0,
         })
-        .sum();
+        .sum()
 }
 
 fn part2(input: &String) -> i32 {
     let lines = input.lines();
 
-    return lines
+    lines
         .map(|it| {
             let numbers = find_numbers(it);
             let concatenated = format!("{}{}", numbers.0, numbers.1);
             concatenated.parse::<i32>().unwrap()
         })
-        .sum();
+        .sum()
 }
 
 fn find_numbers(s: &str) -> (i32, i32) {
@@ -67,11 +67,11 @@ fn find_numbers(s: &str) -> (i32, i32) {
 }
 
 fn map_to_digits(input: &str) -> Vec<u32> {
-    return input
+    input
         .chars()
         .filter(|s| s.is_digit(10))
         .map(|s| s.to_digit(10).unwrap())
-        .collect::<Vec<u32>>();
+        .collect::<Vec<u32>>()
 }
 
 fn map_text_to_digits(input: &str) -> i32 {
