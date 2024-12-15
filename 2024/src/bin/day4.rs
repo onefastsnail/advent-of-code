@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 fn main() {
     let input = std::fs::read_to_string("./inputs/day4/input.txt").expect("file not found!");
 
@@ -24,8 +26,33 @@ fn part1(input: &str) -> i32 {
     count
 }
 
-fn part2(_: &str) -> i32 {
-    0
+fn part2(input: &str) -> i32 {
+    let letters: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
+    let mut count = 0;
+    let valid_values = HashSet::from(["MAS", "SAM"]);
+
+    for i in 0..letters[0].len() - 2 {
+        for it in (0..letters[0].len()).collect::<Vec<_>>().windows(3) {
+            let middle = letters[i + 1][it[1]];
+
+            let d1 = [letters[i][it[0]], middle, letters[i + 2][it[2]]]
+                .iter()
+                .collect::<String>();
+
+            let d2 = [letters[i][it[0 + 2]], middle, letters[i + 2][it[0]]]
+                .iter()
+                .collect::<String>();
+
+            if [&d1.as_str(), &d2.as_str()]
+                .iter()
+                .all(|&d| valid_values.contains(d))
+            {
+                count += 1;
+            }
+        }
+    }
+
+    count
 }
 
 fn count_in_row(letters: &Vec<char>, m: &str) -> i32 {
@@ -121,13 +148,13 @@ mod tests {
     fn it_solves_part2_example1() {
         let input = std::fs::read_to_string("./inputs/day4/teaser.txt").expect("file not found!");
 
-        assert_eq!(part2(&input), 1);
+        assert_eq!(part2(&input), 9);
     }
 
     #[test]
     fn it_solves_part2() {
         let input = std::fs::read_to_string("./inputs/day4/input.txt").expect("file not found!");
 
-        assert_eq!(part2(&input), 1);
+        assert_eq!(part2(&input), 1930);
     }
 }
